@@ -1,6 +1,8 @@
 #!/bin/bash
 #based on 'crep' script from Campbell Barton
 
+REPOSITORIES_FOLDERS="/home/dfelinto/src/blender/repositories/blender"
+
 OUT="/tmp/mktmp"
 git branch --list | sort > $OUT
 
@@ -20,6 +22,26 @@ EDIT=$(cat $OUT | sed -n $LINE) # file to edit
 
 rm $OUT
 
+# if there is a repository folder matching the branch name switch to it
+# otherwise tries to switch to the master as a fallback
+
+function change_folder()
+{
+	folder=$1
+	cd $folder
+#	$SHELL
+}
+
+EDIT=`echo $EDIT | xargs`
+if [ -d "$REPOSITORIES_FOLDERS/$EDIT}" ]; then
+	# change_folder "$REPOSITORIES_FOLDERS/${EDIT}"
+	cd "$REPOSITORIES_FOLDERS/${EDIT}"
+elif [ -d "$REPOSITORIES_FOLDERS/master" ]; then
+	# change_folder $REPOSITORIES_FOLDERS/master;
+	cd $REPOSITORIES_FOLDERS/master;
+fi
+$SHELL
+
 # Now change the branch
-git checkout $EDIT
+#git checkout $EDIT
 
